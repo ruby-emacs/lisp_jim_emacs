@@ -13,3 +13,18 @@
 (mapcar 'aa '(2 4 6)) ;; 先按一次 ` C-x C-e ` => (4 6 8)
 ;; (mapcar FUNCTION SEQUENCE)
 
+
+;; about quote 
+(quote 1) ;; => 1 <=> '1
+(+ '1 2) ;; => 3
+
+;; Lisp的列表是一种可嵌套的树形结构 ;;=> graph 图音书
+(defun factorial (N)
+  (if (= N 1)
+      1
+    (* N (factorial (- N 1)))
+    )
+  )
+(factorial 10) ;; => 3628800
+(format "hello world") ;;=> "hello world"
+
