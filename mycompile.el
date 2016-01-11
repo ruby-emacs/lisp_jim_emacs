@@ -20,10 +20,19 @@ my-regexp;;=> '"\\(?:a\\(?:aa\\|b[ab]\\)\\)"'
 
 (eq (quote 111) '111 ) ;=> t
 
-(fboundp 'aaaooo) ;=> nil
 
 (list 1 2 3) ;=> (1 2 3)
 
+;;;;;;;;;;
+
+(fboundp 'aaaooo) ;=> nil
+;; 查看是否有定义某某函数 response_to?(method_name)
+(fboundp 'car) ; => t
+(fboundp 'aaaaaaaa) ; => nil
+(fboundp 'if) ;=> t
+(defmacro my-macro (x) `',x)
+(fboundp 'my-macro)
+(my-macro '(1 2 3));=> (quote (1 2 3))
 
 
 
