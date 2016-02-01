@@ -1,36 +1,7 @@
-# testpost
+m Emacs Lisp
 
-FIXME: description
+* 代码编写代码: Emacs Lisp 快速学习适应任意新语言 => 如bootstrap解释器, 快速psd式html生成结构bootstrap
+  
+* Jim的Emacs影响力: 无处不在的lambda演算能量
 
-## Installation
 
-Download from http://example.com/FIXME.
-
-## Usage
-
-FIXME: explanation
-
-    $ java -jar testpost-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
