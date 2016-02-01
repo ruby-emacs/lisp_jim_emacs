@@ -40,10 +40,16 @@
   (println x  "=== Hi, ====" rest)
   (apply str (butlast rest))
   )
-(concat-rest 0 1 2 3) ;=> "0 === Hi, ==== (1 2 3)" ; println
+;(concat-rest 0 1 2 3) ;=> "0 === Hi, ==== (1 2 3)" ; println
 ;=> "12"
 (butlast '(1 2 3));=> (1 2) , if no quote , is  erro 
 
-(apply println "aaaaaaaaaaaaaaa");=> "a a a a a a a a a a a a a a a" : one by one get arguments 
+;(apply println "aaaaaaaaaaaaaaa");=> "a a a a a a a a a a a a a a a" : one by one get arguments 
 
+(macroexpand-all '(apply println "aaaaaaaaaaaaaaa")); => (apply println "aaaaaaaaaaaaaaa")
 
+;(doc apply)
+;([f args] [f x args] [f x y args] [f x y z args] [f a b c d & args])
+;  Applies fn f to the argument list formed by prepending intervening arguments to args.
+println '(111 222 333 555);=> (111 222 333 555)
+(apply println '(111 222 333 555));=> 111 222 333 555 ; 
