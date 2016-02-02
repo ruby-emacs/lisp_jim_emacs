@@ -65,7 +65,7 @@ println '(111 222 333 555);=> (111 222 333 555)
            ;(println x)
            ) ;=> 1  2 3 4 5
 
-(macroexpand-all '(foreach-1 [x [1 2 3]] (println x) ))
+(macroexpand-all '(foreach-1 [x [1 2 3]] (println x) )) ; ==> 没有数据模板, 而宏就是数据模板
 (loop* [coll__1710__auto__ [1 2 3]]
        (let* [temp__4425__auto__ (clojure.core/seq coll__1710__auto__)]
              (if temp__4425__auto__
