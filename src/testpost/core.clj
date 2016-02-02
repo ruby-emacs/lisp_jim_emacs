@@ -52,4 +52,15 @@
 ;([f args] [f x args] [f x y args] [f x y z args] [f a b c d & args])
 ;  Applies fn f to the argument list formed by prepending intervening arguments to args.
 println '(111 222 333 555);=> (111 222 333 555)
-(apply println '(111 222 333 555));=> 111 222 333 555 ; 
+; (apply println '(111 222 333 555));=> 111 222 333 555 ; 
+
+;; Haskell 没有宏, 只有高阶函数(源自lambda), 如果没有宏, 只能用lambda来演算表达foreach-1
+(defmacro foreach-1 [[sym coll] & body]
+  `(loop [coll# ~coll]
+     (when-let [[~sym & xs#] (seq coll#)]
+       ~@body
+       (recur xs#))))
+
+(foreach-1 [x [1 2 3 4 5]]
+           (println x)
+           ) ;=> 1  2 3 4 5
