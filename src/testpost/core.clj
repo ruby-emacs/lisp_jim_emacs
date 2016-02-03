@@ -76,7 +76,7 @@ println '(111 222 333 555);=> (111 222 333 555)
                          (println x)
                          (recur xs__1711__auto__)))))) ")
 
-(pprint (macroexpand-all '(foreach-1 [x [1 2 3]] (println x) )) )
+;(pprint (macroexpand-all '(foreach-1 [x [1 2 3]] (println x) )) )
 ;=> 
 (comment "
 (loop*
@@ -97,4 +97,12 @@ println '(111 222 333 555);=> (111 222 333 555)
      (recur xs__1787__auto__))))))
 ")
 
+"------------"
 
+(macroexpand-all '#(println 1111));=> (fn* [] (println 1111))
+#(println 1111) ; => #object[testpost.core$eval5315$fn__5316 0x2d726d05 "testpost.core$eval5315$fn__5316@2d726d05"]
+
+
+( #(println 1111) ) ;=> 1111
+
+;(map #(println "++++++++") ["aaaa" "bbbb" "cccc"]) ;=> Wrong number of args
