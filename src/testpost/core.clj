@@ -112,4 +112,7 @@ println '(111 222 333 555);=> (111 222 333 555)
   )
 ;(myprint "222222") ;=> 222222
 
+(def a (atom 10))
+;(a 111) ;=> clojure.lang.Atom cannot be cast to clojure.lang.IFn,
+(println @a) ;=> 10
 
