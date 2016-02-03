@@ -66,6 +66,7 @@ println '(111 222 333 555);=> (111 222 333 555)
            ) ;=> 1  2 3 4 5
 
 (macroexpand-all '(foreach-1 [x [1 2 3]] (println x) )) ; ==> 没有数据模板, 而宏就是数据模板
+(comment "
 (loop* [coll__1710__auto__ [1 2 3]]
        (let* [temp__4425__auto__ (clojure.core/seq coll__1710__auto__)]
              (if temp__4425__auto__
@@ -73,7 +74,27 @@ println '(111 222 333 555);=> (111 222 333 555)
                           (clojure.core/nth vec__1727 0 nil)
                           xs__1711__auto__ (clojure.core/nthnext vec__1727 1)]
                          (println x)
-                         (recur xs__1711__auto__))))))  
-(println "=====================================================")
+                         (recur xs__1711__auto__)))))) ")
+
+(pprint (macroexpand-all '(foreach-1 [x [1 2 3]] (println x) )) )
+;=> 
+(comment "
+(loop*
+ [coll__1786__auto__ [1 2 3]]
+ (let*
+  [temp__4425__auto__ (clojure.core/seq coll__1786__auto__)]
+  (if
+   temp__4425__auto__
+   (do
+    (let*
+     [vec__1806
+      temp__4425__auto__
+      x
+      (clojure.core/nth vec__1806 0 nil)
+      xs__1787__auto__
+      (clojure.core/nthnext vec__1806 1)]
+     (println x)
+     (recur xs__1787__auto__))))))
+")
 
 
