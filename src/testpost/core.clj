@@ -112,7 +112,36 @@ println '(111 222 333 555);=> (111 222 333 555)
   )
 ;(myprint "222222") ;=> 222222
 
+; @a 是 调用 def 函数 , defn = def + fn (lambda)
 (def a (atom 10))
 ;(a 111) ;=> clojure.lang.Atom cannot be cast to clojure.lang.IFn,
-(println @a) ;=> 10
+;(println @a) ;=> 10
+
+(swap! a dec)  ;=> -1
+;(swap! 100 dec) ;=> cannot be cast to clojure.lang.IAtom
+(pos? @a) ;=> false
+(pos? 1) ;=> true 
+(do (+ 1 2)) ;=> 3
+
+;;;; https://clojuredocs.org/clojure.core/while
+;(source while)
+(defmacro while-1
+  [test & body]
+  `(loop []
+     (when ~test
+       ~@body
+       (recur) ;=> 尾递归
+       )
+     )
+  )
+
+(while-1
+ (pos? @a)
+ (do
+   ;(println @a)
+   (swap! a dec)
+   )
+ )
+;=> 9 8 7 6 5 4 3 2 1
+;;;;;;;;
 
