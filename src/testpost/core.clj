@@ -179,7 +179,7 @@ println '(111 222 333 555);=> (111 222 333 555)
 ;(macroexpand-all '(when-1 true (println 11111)) ;=> 11111
 
 
-(defmacro p
+(defmacro p-n
   [& body]
   (list 'if 1 (cons 'do body))
   )
