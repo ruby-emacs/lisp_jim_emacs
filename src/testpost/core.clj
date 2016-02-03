@@ -103,6 +103,13 @@ println '(111 222 333 555);=> (111 222 333 555)
 #(println 1111) ; => #object[testpost.core$eval5315$fn__5316 0x2d726d05 "testpost.core$eval5315$fn__5316@2d726d05"]
 
 
-( #(println 1111) ) ;=> 1111
+;( #(println 1111) ) ;=> 1111
 
 ;(map #(println "++++++++") ["aaaa" "bbbb" "cccc"]) ;=> Wrong number of args
+
+(defmacro myprint [x]
+  `(println ~x) ; ~x 是反引号的去除, 替换为x变量
+  )
+;(myprint "222222") ;=> 222222
+
+
