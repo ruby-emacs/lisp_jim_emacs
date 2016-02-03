@@ -145,3 +145,52 @@ println '(111 222 333 555);=> (111 222 333 555)
 ;=> 9 8 7 6 5 4 3 2 1
 ;;;;;;;;
 
+;(source comment)
+;(defmacro comment
+;  "Ignores body, yields nil"
+;  [& body]) =>
+(comment
+  (defmacro while-2
+    [test & body]
+    (list 'loop []
+          (concat (list 'when test) body)
+          'recur))
+  
+  (while-2
+   (pos? @a)
+   (do
+     (println @a)
+     (swap! a dec)
+     ))
+  )
+
+
+(defmacro p-1
+  [& body]
+  (body)
+  )
+;(p #(println 1111))
+
+(defmacro when-1
+  [test & body]
+  ;(list 'if test (cons 'do body))
+  (list 'if 1 (cons 'do body))
+  )
+;(macroexpand-all '(when-1 true (println 11111)) ;=> 11111
+
+
+(defmacro p
+  [& body]
+  (list 'if 1 (cons 'do body))
+  )
+; (p #(println 1111))
+;=>1111
+;=> CompilerException java.lang.NullPointerException, compiling:(/home/jim/jim_emacs_lisp/src/testpost/core.clj:166:1) 
+
+(defmacro p
+  [& body]
+  (pprint (macroexpand-all (do body))
+          )
+  )
+
+(p (when-1 true (println 11111)) ) ;=> ((if 1 (do (println 11111))))
