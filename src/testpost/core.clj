@@ -54,6 +54,19 @@
            ;e#)
           )))
 
-(catch-exception-string "aaa" (+ "1" 1))
+;(catch-exception-string "aaa" (+ "1" 1))
 ;=> #error { :cause java.lang.String cannot be cast to java.lang.Number
 
+; 记忆化搜索-关于memoize结合递归 : http://clojure-china.org/t/memoize/51
+(def m-fib
+  (memoize (fn [n]
+             (condp = n
+               0 1
+               1 1
+               (+ (m-fib (dec n)) (m-fib (- n 2)))))))
+
+(time (m-fib 50))
+;=> 1346269
+; "Elapsed time: 167.617558 msecs"  ... 1
+; "Elapsed time: 1.026374 msecs"  ... 2 
+;  50 =>  1.320158 msecs 
