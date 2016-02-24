@@ -35,3 +35,6 @@
 
 ; (.readLine "aaaai") ;=> No matching field found: readLine for class java.lang.String
 
+; binding => [page stream] ; [a 1 b 2 c 3]
+; close-fn => #(.close %)
+; body => (.readLine page)
