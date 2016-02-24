@@ -57,6 +57,12 @@
 ;(catch-exception-string "aaa" (+ "1" 1))
 ;=> #error { :cause java.lang.String cannot be cast to java.lang.Number
 
+(defn fib-no-mem [n]
+  (condp = n
+    0 1
+    1 1
+        (+ (fib (dec n)) (fib (- n 2)))))
+
 ; 记忆化搜索-关于memoize结合递归 : http://clojure-china.org/t/memoize/51
 (def m-fib
   (memoize (fn [n]
