@@ -25,7 +25,7 @@
   }
   }
   }")
+(re-seq #"-> [a-z] \{" ruby-lambda) ; => ("-> x {" "-> y {" "-> z {") 匹配的get
 
-(str/split ruby-lambda #"->")
-;=> ["" " x {\n  " " y {\n  " " z {\n  x + y + z\n  }\n  }\n  }"]
+(str/split ruby-lambda #"-> [a-z] \{") ; => ["" "\n  " "\n  " "\n  x + y + z\n  }\n  }\n  }"] 匹配的remove
 
