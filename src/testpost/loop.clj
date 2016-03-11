@@ -39,11 +39,11 @@
 (defmacro aaa [x & forms]
   (println (str x "===" forms "==="))
   ;;`(~@(first forms) 222) ;; good 222 * 100 
-  ;;'fn [x] (cons (first forms) x) )
-  `(fn [x#] (~@(first forms) x#))
+  `(fn [y#] (~@(first forms) y# ~@x )  )
   ) 
 (defmacro bbb [x & forms] `(aaa ~x ~@forms) )
 
 ;;(bbb (list 1 2) (fn [x] (* x 100))) ;;=> (list 1 2)===((fn [x] (* x 100)))===
-((bbb (list 1 2) (* 100)) 222) ;;=> => 22200
+((bbb (111) (* 100)) 222) ;;=> 2464200
 
+;;(= (list 1 2) '(1 2)) ; true
