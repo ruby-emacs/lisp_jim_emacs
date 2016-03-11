@@ -20,15 +20,21 @@
    (lazy-seq
     (when-let [s (seq coll)]
       (if (chunked-seq? s)
-
-        
         (let [c (chunk-first s)
               size (int (count c))
               b (chunk-buffer size)]
-          
+          ;;(println (str c "===" size "===" b))
+          ;;=>clojure.lang.ArrayChunk@3254000a===6===clojure.lang.ChunkBuffer@1da8c091
+
           (dotimes [i size]
-            (chunk-append b (f (.nth c i))))
-          
+            ;;(println (str b "===" f "===" c "===" i))
+            ;;=> clojure.lang.ChunkBuffer@4c2b6e40===testpost.core$eval7578$fn__7579@4c50241e===clojure.lang.ArrayChunk@33917e44===(0..5)
+            
+            (chunk-append b (f (.nth c i)))
+            
+            )
+          ;;1: (-> (chunk-buffer size) (chunk)
+          ;;2: (chunk-cons list chunk-rest) 
           (chunk-cons (chunk b) (map-m f (chunk-rest s)))
 
           )
@@ -129,6 +135,27 @@
 
 ;;vector转list
 (= '(1 2 3) (seq [1 2 3])) ;=> true
-;;(map-m #(str "Hello " % "!" ) ["Ford" "Arthur" "Tricia" "Steve" "Kaka" "Louis"]) ; => ("Hello Ford!" "Hello Arthur!" "Hello Tricia!" "Hello Steve!" "Hello Kaka!" "Hello Louis!")
 
-(map-m + [1 2 3] [4 5 6])
+;;(map-m + [1 2 3] [4 5 6])
+
+(chunk-first (seq (range 1 42)))
+;;=> #object[clojure.lang.LongRange$LongChunk 0x65d5b844 "clojure.lang.LongRange$LongChunk@65d5b844"]
+(chunk-buffer 6)
+;;=>#object[clojure.lang.ChunkBuffer 0x1a39da20 "clojure.lang.ChunkBuffer@1a39da20"]
+
+;;; 类似于take ;;;;;;;;;;;;;;;;;;;
+;; https://clojuredocs.org/clojure.core/chunk
+(seq (range 42));;=>(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41)
+(chunk-cons (chunk (chunk-buffer 32))
+            (seq (range 42))) ;;=>(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41)
+(chunk (chunk-buffer 32)) ;;#object[clojure.lang.ArrayChunk 0x476a0ccf "clojure.lang.ArrayChunk@476a0ccf"]
+(chunk-rest
+ (chunk-cons (chunk (chunk-buffer 32))
+             (seq (range 42)))) ;;=>(32 33 34 35 36 37 38 39 40 41)
+;; 基本使用说明
+(-> (chunk-buffer 32) (chunk)
+    (chunk-cons (seq (range 42))) (chunk-rest))
+
+
+(map-m #(str "Hello " % "!" ) ["Ford" "Arthur" "Tricia" "Steve" "Kaka" "Louis"]) ; => ("Hello Ford!" "Hello Arthur!" "Hello Tricia!" "Hello Steve!" "Hello Kaka!" "Hello Louis!")
+
