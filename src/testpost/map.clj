@@ -16,7 +16,7 @@
      )
    )
   ;; =======
-  ([f coll] ; 当参数只有两个时
+  ([f coll] ; 当参数只有两个时 , (map fn [1 2 3])
    (lazy-seq
     (when-let [s (seq coll)]
       (if (chunked-seq? s)
@@ -44,13 +44,15 @@
    )
   ;; =======
   
-  ([f c1 c2]
+  ([f c1 c2] ; (map-m + [1 2 3] [4 5 6])
    (lazy-seq
+    (println (str c1 "===" c2 "==="))
     (let [s1 (seq c1) s2 (seq c2)]
       (when (and s1 s2)
         
         (cons
          (f (first s1) (first s2))
+         ;; rest递归传递给下一次 cons (first list) => map (rest list)
          (map-m f (rest s1) (rest s2))
          )
 
@@ -91,7 +93,7 @@
      )))
 
 ;; ---------------------------
-(map-m #(str "Hello " % "!" ) ["Ford" "Arthur" "Tricia"]) ; => ("Hello Ford!" "Hello Arthur!" "Hello Tricia!")
+;;(map-m #(str "Hello " % "!" ) ["Ford" "Arthur" "Tricia"]) ; => ("Hello Ford!" "Hello Arthur!" "Hello Tricia!")
 
 (class []) ; clojure.lang.PersistentVector
 ;; apply 逐个接收 Vector[]参数
@@ -118,8 +120,15 @@
   ;;(println (str "----" a "----" b))
   (if (> 56 a)
     (cons  a  (fib b (+ b a))  ) ; 求和 1+2+3+4...10
-    (println "stop"))
+    ;;(println "stop")
+    )
   ;;)
   )
 (take 10 (fib 1 2)) ; => => (1 2 3 5 8 13 21 34 55 89) 
-;=> => (1 2 3 5 8 13 21 34 55) 当使用 (if (> 56 a) ..) 时
+;;=> => (1 2 3 5 8 13 21 34 55) 当使用 (if (> 56 a) ..) 时
+
+;;vector转list
+(= '(1 2 3) (seq [1 2 3])) ;=> true
+;;(map-m #(str "Hello " % "!" ) ["Ford" "Arthur" "Tricia" "Steve" "Kaka" "Louis"]) ; => ("Hello Ford!" "Hello Arthur!" "Hello Tricia!" "Hello Steve!" "Hello Kaka!" "Hello Louis!")
+
+(map-m + [1 2 3] [4 5 6])
