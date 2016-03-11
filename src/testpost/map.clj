@@ -16,7 +16,7 @@
      )
    )
   ;; =======
-  ([f coll]
+  ([f coll] ; 当参数只有两个时
    (lazy-seq
     (when-let [s (seq coll)]
       (if (chunked-seq? s)
@@ -73,6 +73,7 @@
   ;; =======
   
   ([f c1 c2 c3 & colls]
+   
    (let [
          step (fn step [cs]
                 (lazy-seq
@@ -90,6 +91,35 @@
      )))
 
 ;; ---------------------------
-(map #(str "Hello " % "!" ) ["Ford" "Arthur" "Tricia"]) ; => ("Hello Ford!" "Hello Arthur!" "Hello Tricia!")
+(map-m #(str "Hello " % "!" ) ["Ford" "Arthur" "Tricia"]) ; => ("Hello Ford!" "Hello Arthur!" "Hello Tricia!")
 
+(class []) ; clojure.lang.PersistentVector
+;; apply 逐个接收 Vector[]参数
+(apply str ["str1" "str2" "str3"])  ;;=> "str1str2str3"
+(str "str1" "str2" "str3")          ;;=> "str1str2str3"
 
+(take 3 '(2 4 6 8 10 12)); => (2 4 6)
+;;,以下定义了一个lazy-seq正数。请注意, 　;,lazy-seq允许我们做一个递归调用,因为在一个安全的方式 　　;;调用不会立即发生,而是创建了一个闭包。
+(defn positive-numbers
+  ([] (positive-numbers 1))
+  ([n]
+   (lazy-seq
+    ;;(println n) ; 1 , 2, 3
+    (cons n
+          (positive-numbers (inc n))
+          )
+    )
+   ))
+;;(take 5 (无限list)) 的 take 闭包
+(take 5 (positive-numbers)) ;=> (1 2 3 4 5)
+
+(defn fib [a b]
+  ;;(lazy-seq ; 和take10闭包结合, 当去除lazy-seq时,eval6365.invoke错误
+  ;;(println (str "----" a "----" b))
+  (if (> 56 a)
+    (cons  a  (fib b (+ b a))  ) ; 求和 1+2+3+4...10
+    (println "stop"))
+  ;;)
+  )
+(take 10 (fib 1 2)) ; => => (1 2 3 5 8 13 21 34 55 89) 
+;=> => (1 2 3 5 8 13 21 34 55) 当使用 (if (> 56 a) ..) 时
