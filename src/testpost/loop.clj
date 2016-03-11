@@ -32,18 +32,22 @@
 (let [a '(+ 2)] `(~@a 1)) ;;=> (+ 2 1)
 (let [a '((+ 2))] `(~@a 1)) ;; => ((+ 2) 1)
 (let [a '((+ 2))]  `(~@(first a) 1)  ) ;; => (+ 2 1)
+(let [a '((+ 2)) b (list 3 4)]  `(~@(first a) 9 8 7 ~@b)  ) ;; => (+ 2 9 8 7 3 4)
 (let [a '(((((+ 2)))))]
   `(~@(-> a (first) (first) (first) (first) ) 1)
   ) ;; => (+ 2 1)
 
-(defmacro aaa [x & forms]
-  (println (str x "===" forms "==="))
+(defmacro aaa [x & forms] ;;;;;;;;;;;;;; use first get fn and data, use rest get list and data 
+  ;;`(+ ~@x) => (clojure.core/+ list 56 68) ;; (first x) => list , (rest x) => (56 68)
+  ;; `(+ ~@(rest x))  => (clojure.core/+ 56 68)
+  (println (str "===" `(+ ~@(rest x)) "===" forms "==="))
   ;;`(~@(first forms) 222) ;; good 222 * 100 
-  `(fn [y#] (~@(first forms) y# ~@x )  )
+  `(fn [y#] (~@(first forms) y# ~@(rest x) )  )
   ) 
 (defmacro bbb [x & forms] `(aaa ~x ~@forms) )
 
 ;;(bbb (list 1 2) (fn [x] (* x 100))) ;;=> (list 1 2)===((fn [x] (* x 100)))===
-((bbb (111) (* 100)) 222) ;;=> 2464200
+((bbb (list 56 68) (* 100)) 222) ;; => 84537600 ;; <= (* 56 68 100 222)
 
 ;;(= (list 1 2) '(1 2)) ; true
+
