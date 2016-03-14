@@ -10,6 +10,13 @@
 ;;; `,~,~@ 较好的统一了cons和conj的使用 11111111111
 `(1 2 ~@(list 3 4)) ;;=> (1 2 3 4)
 `(~@(list 3 4) 1 2) ;;=> (3 4 1 2)
+;;;;;;;; 前缀first => cons ;  后缀rest => conj http://paulsanwald.com/blog/231.html
+(def aa (list 1 2 3 4))
+(def bb (list 5 6 7 8))
+;;(println aa)
+(println (conj (rest aa) (first aa))) ; => (1 2 3 4)
+;;(println (cons (rest aa) (first aa))) ;;=> erro  java.lang.IllegalArgumentException: Don't know how to create ISeq from: java.lang.Long
+(println (cons (first aa) (rest aa))) ;;=> (1 2 3 4)
 
 
 ;; concat vs. conj vs. cons vs. list vs. list* https://gist.github.com/noahlz/5510191
@@ -48,4 +55,5 @@
 (macroexpand '(when 1 2 3 4)) ;; only no eval it :) ;;=> (if 1 (do 2 3 4))
 
 (when-p 1 2 3 4) ;;=> (if 1 (do 2 3 4))
+
 
